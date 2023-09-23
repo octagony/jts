@@ -2,7 +2,7 @@
   "name": "jts",
   "version": "0.0.0",
   "scripts": {
-    "dev": "bunx --bun vite",
+    "dev": "vite",
     "build": "bunx --bun vue-tsc --noEmit && vite build",
     "preview": "bunx --bun vite preview"
   },
