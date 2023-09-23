@@ -1,7 +1,11 @@
-<script setup lang="ts"></script>
+<script lang="ts">
+import { json2ts } from "json-ts";
 
-<template>
-  <h1>Hello Bun</h1>
-</template>
-
-<style></style>
+const json = `
+  {
+  "name":"John"
+  }
+  `;
+console.log(json2ts(json));
+</script>
+<template></template>
