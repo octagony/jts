@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import JsonEditorVue from "json-editor-vue";
+import Navbar from "./components/Navbar/Navbar.vue";
 import { json2ts } from "json-ts";
 import { ref } from "vue";
-import JsonEditorVue from "json-editor-vue";
 
 const inputJSON = ref("");
 const outputTS = ref("");
@@ -15,6 +16,7 @@ const generateTS = () => {
 
 <template>
   <v-app>
+    <Navbar />
     <v-container fluid>
       <JsonEditorVue
         v-model="inputJSON"
