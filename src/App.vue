@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import JsonEditorVue from "json-editor-vue";
 import Navbar from "./components/Navbar/Navbar.vue";
+import Header from "./components/Header/Header.vue";
 import { json2ts } from "json-ts";
 import { ref } from "vue";
 
@@ -17,14 +18,17 @@ const generateTS = () => {
 <template>
   <v-app>
     <Navbar />
-    <v-container fluid>
-      <JsonEditorVue
-        v-model="inputJSON"
-        mode="text"
-        :navigationBar="false"
-        :statusBar="false"
-        :main-menu-bar="false"
-      />
+    <v-container fluid class="mt-16">
+      <Header />
+      <v-col>
+        <JsonEditorVue
+          v-model="inputJSON"
+          mode="text"
+          :navigationBar="false"
+          :statusBar="false"
+          :main-menu-bar="false"
+        />
+      </v-col>
       <v-btn prepend-icon="$vuetify" variant="tonal" @click="generateTS">
         Generate Types
       </v-btn>
