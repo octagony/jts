@@ -1,26 +1,71 @@
 <script setup lang="ts">
+import console from "console";
 import JsonEditorVue from "json-editor-vue";
-import Navbar from "./components/Navbar/Navbar.vue";
-import Header from "./components/Header/Header.vue";
 import { json2ts } from "json-ts";
-import { ref } from "vue";
+import { reactive, ref, watch } from "vue";
+import Header from "./components/Header/Header.vue";
+import Navbar from "./components/Navbar/Navbar.vue";
 
-const inputJSON = ref<string>("");
+interface IJson {
+  input: string;
+  error: string;
+}
+
+const inputJSON: IJson = reactive({
+  input: "",
+  error: "",
+});
+
 const outputTS = ref<string>("");
 const renderOutput = ref<boolean>(false);
+const blockGenerateButton = ref<boolean>(false);
+
+const inputRef = ref();
 
 const generateTS = () => {
-  const generate = json2ts(inputJSON.value);
-  outputTS.value = generate;
-  renderOutput.value = !renderOutput.value;
-  console.log(outputTS.value);
+  try {
+    const generate = json2ts(inputJSON.input);
+    if (inputJSON.input.length < 1) {
+      throw new Error("No context");
+    }
+    outputTS.value = generate;
+    renderOutput.value = !renderOutput.value;
+    console.log(outputTS.value);
+  } catch (e) {
+    if (e instanceof TypeError) {
+      inputJSON.error = `Sorry, but i can't convert this`;
+    }
+  }
 };
 
 const initialRender = () => {
-  inputJSON.value = "";
+  inputJSON.input = "";
   outputTS.value = "";
   renderOutput.value = false;
 };
+
+const checkError = () => {};
+
+//watchEffect(() => {
+//  const elem = document.querySelector(".jse-error");
+//  console.log(elem);
+//});
+
+// watchEffect(() => {
+//   console.log(inputRef.value.jsonEditor.$$.root.classList);
+// });
+
+watch(
+  () => inputJSON.input,
+  () => {
+    const element = document.querySelector(".jse-error");
+    if (element) {
+      blockGenerateButton.value = true;
+    } else {
+      blockGenerateButton.value = false;
+    }
+  }
+);
 </script>
 
 <template>
@@ -28,43 +73,46 @@ const initialRender = () => {
     <Navbar />
     <v-container fluid class="mt-16 text-center">
       <Header />
+      <template v-if="inputJSON.error">
+        <p>{{ inputJSON.error }}</p>
+      </template>
       <v-col class="text-left">
-        <template v-if="!renderOutput">
-          <JsonEditorVue
-            v-model="inputJSON"
-            mode="text"
-            :navigationBar="false"
-            :statusBar="false"
-            :main-menu-bar="false"
-          />
-        </template>
+        <Transition>
+          <template v-if="!renderOutput">
+            <JsonEditorVue
+              v-model="inputJSON.input"
+              ref="inputRef"
+              mode="text"
+              :navigationBar="false"
+              :statusBar="false"
+              :main-menu-bar="false"
+            />
+          </template>
+        </Transition>
       </v-col>
       <v-col class="text-left">
-        <template v-if="renderOutput">
-          <JsonEditorVue
-            v-model="outputTS"
-            mode="tree"
-            :navigationBar="false"
-            :statusBar="false"
-            :main-menu-bar="false"
-            class="outputTS"
-          />
-        </template>
+        <Transition>
+          <template v-if="renderOutput">
+            <JsonEditorVue
+              v-model="outputTS"
+              mode="tree"
+              :navigationBar="false"
+              :statusBar="false"
+              :main-menu-bar="false"
+              class="outputTS"
+            />
+          </template>
+        </Transition>
       </v-col>
       <v-btn
         v-if="!renderOutput"
-        prepend-icon="$vuetify"
         variant="tonal"
         @click="generateTS"
+        :disabled="blockGenerateButton"
       >
         Generate Types
       </v-btn>
-      <v-btn
-        v-if="renderOutput"
-        prepend-icon="$vuetify"
-        variant="tonal"
-        @click="initialRender"
-      >
+      <v-btn v-if="renderOutput" variant="tonal" @click="initialRender">
         Try Again
       </v-btn>
     </v-container>
