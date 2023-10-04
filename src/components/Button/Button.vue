@@ -1,18 +1,16 @@
 <script setup lang="ts">
-const props = defineProps(["disabled", "text"]);
-console.log(props);
+const props = defineProps({
+  disabled: Boolean,
+  text: String,
+});
+
+const emit = defineEmits<{
+  (e: "buttonEvent"): void;
+}>();
 </script>
 
 <template>
   <v-btn variant="tonal" @click="$emit('buttonEvent')" :disabled="disabled">
     {{ text }}
   </v-btn>
-  <!-- <v-btn
-        v-if="!renderOutput"
-        variant="tonal"
-        @click="generateTS"
-        :disabled="blockGenerateButton"
-      >
-        Generate Types
-      </v-btn> -->
 </template>

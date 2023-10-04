@@ -7,6 +7,7 @@ import { json2ts } from "json-ts";
 import JsonEditorVue from "json-editor-vue";
 import Header from "@/components/Header/Header.vue";
 import Navbar from "@/components/Navbar/Navbar.vue";
+import Error from "@/components/Error/Error.vue";
 import Button from "@/components/Button/Button.vue";
 
 // Types
@@ -62,9 +63,9 @@ watch(
     <Navbar />
     <v-container fluid class="mt-16 text-center">
       <Header />
-      <template v-if="inputJSON.error">
-        <p class="text-red bold">{{ inputJSON.error }}</p>
-      </template>
+      <!-- ERROR -->
+      <Error v-if="inputJSON.error" :error="inputJSON.error" />
+      <!-- JSONEDITORS -->
       <v-col class="text-left">
         <Transition name="slide-fade">
           <template v-if="!renderOutput">
@@ -87,7 +88,6 @@ watch(
               :navigationBar="false"
               :statusBar="false"
               :main-menu-bar="false"
-              class="outputTS"
             />
           </template>
         </Transition>
