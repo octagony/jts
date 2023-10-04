@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import console from "console";
 import JsonEditorVue from "json-editor-vue";
 import { json2ts } from "json-ts";
 import { reactive, ref, watch } from "vue";
@@ -29,8 +28,8 @@ const generateTS = () => {
       throw new Error("No context");
     }
     outputTS.value = generate;
+    inputJSON.error = "";
     renderOutput.value = !renderOutput.value;
-    console.log(outputTS.value);
   } catch (e) {
     if (e instanceof TypeError) {
       inputJSON.error = `Sorry, but i can't convert this`;
@@ -40,21 +39,10 @@ const generateTS = () => {
 
 const initialRender = () => {
   inputJSON.input = "";
+  inputJSON.error = "";
   outputTS.value = "";
   renderOutput.value = false;
 };
-
-const checkError = () => {};
-
-//watchEffect(() => {
-//  const elem = document.querySelector(".jse-error");
-//  console.log(elem);
-//});
-
-// watchEffect(() => {
-//   console.log(inputRef.value.jsonEditor.$$.root.classList);
-// });
-
 watch(
   () => inputJSON.input,
   () => {
@@ -74,10 +62,10 @@ watch(
     <v-container fluid class="mt-16 text-center">
       <Header />
       <template v-if="inputJSON.error">
-        <p>{{ inputJSON.error }}</p>
+        <p class="text-red bold">{{ inputJSON.error }}</p>
       </template>
       <v-col class="text-left">
-        <Transition>
+        <Transition name="slide-fade">
           <template v-if="!renderOutput">
             <JsonEditorVue
               v-model="inputJSON.input"
@@ -91,7 +79,7 @@ watch(
         </Transition>
       </v-col>
       <v-col class="text-left">
-        <Transition>
+        <Transition name="slide-fade">
           <template v-if="renderOutput">
             <JsonEditorVue
               v-model="outputTS"
@@ -128,5 +116,19 @@ watch(
 
 .jse-string {
   color: #000 !important;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>
