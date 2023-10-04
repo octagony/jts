@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import JsonEditorVue from "json-editor-vue";
-import { json2ts } from "json-ts";
+// Libraries
 import { reactive, ref, watch } from "vue";
-import Header from "./components/Header/Header.vue";
-import Navbar from "./components/Navbar/Navbar.vue";
+import { json2ts } from "json-ts";
 
-interface IJson {
-  input: string;
-  error: string;
-}
+// Components
+import JsonEditorVue from "json-editor-vue";
+import Header from "@/components/Header/Header.vue";
+import Navbar from "@/components/Navbar/Navbar.vue";
+import Button from "@/components/Button/Button.vue";
 
-const inputJSON: IJson = reactive({
+// Types
+import { IJsonInput } from "@/types/Ijson";
+
+const inputJSON: IJsonInput = reactive({
   input: "",
   error: "",
 });
@@ -18,8 +20,6 @@ const inputJSON: IJson = reactive({
 const outputTS = ref<string>("");
 const renderOutput = ref<boolean>(false);
 const blockGenerateButton = ref<boolean>(false);
-
-const inputRef = ref();
 
 const generateTS = () => {
   try {
@@ -43,6 +43,7 @@ const initialRender = () => {
   outputTS.value = "";
   renderOutput.value = false;
 };
+
 watch(
   () => inputJSON.input,
   () => {
@@ -69,7 +70,6 @@ watch(
           <template v-if="!renderOutput">
             <JsonEditorVue
               v-model="inputJSON.input"
-              ref="inputRef"
               mode="text"
               :navigationBar="false"
               :statusBar="false"
@@ -92,17 +92,19 @@ watch(
           </template>
         </Transition>
       </v-col>
-      <v-btn
+      <!-- ACTION BUTTONS -->
+      <Button
         v-if="!renderOutput"
-        variant="tonal"
-        @click="generateTS"
         :disabled="blockGenerateButton"
-      >
-        Generate Types
-      </v-btn>
-      <v-btn v-if="renderOutput" variant="tonal" @click="initialRender">
-        Try Again
-      </v-btn>
+        text="Generate Types"
+        @button-event="generateTS"
+      />
+      <Button
+        v-else
+        :disabled="blockGenerateButton"
+        text="Try Again"
+        @button-event="initialRender"
+      />
     </v-container>
   </v-app>
 </template>
@@ -128,7 +130,7 @@ watch(
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translateX(20px);
+  transform: translateX(50px);
   opacity: 0;
 }
 </style>
