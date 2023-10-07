@@ -13,6 +13,10 @@ import Button from "@/components/Button/Button.vue";
 // Types
 import { IJsonInput } from "@/types/Ijson";
 
+// Theme
+import { useTheme } from "vuetify";
+import { computed } from "vue";
+
 const inputJSON: IJsonInput = reactive({
   input: "",
   error: "",
@@ -21,6 +25,8 @@ const inputJSON: IJsonInput = reactive({
 const outputTS = ref<string>("");
 const renderOutput = ref<boolean>(false);
 const blockGenerateButton = ref<boolean>(false);
+
+const theme = useTheme();
 
 const generateTS = () => {
   try {
@@ -60,52 +66,54 @@ watch(
 
 <template>
   <v-app>
-    <Navbar />
-    <v-container fluid class="mt-16 text-center">
-      <Header />
-      <!-- ERROR -->
-      <Error v-if="inputJSON.error" :error="inputJSON.error" />
-      <!-- JSONEDITORS -->
-      <v-col class="text-left">
-        <Transition name="slide-fade">
-          <template v-if="!renderOutput">
-            <JsonEditorVue
-              v-model="inputJSON.input"
-              mode="text"
-              :navigationBar="false"
-              :statusBar="false"
-              :main-menu-bar="false"
-            />
-          </template>
-        </Transition>
-      </v-col>
-      <v-col class="text-left">
-        <Transition name="slide-fade">
-          <template v-if="renderOutput">
-            <JsonEditorVue
-              v-model="outputTS"
-              mode="tree"
-              :navigationBar="false"
-              :statusBar="false"
-              :main-menu-bar="false"
-            />
-          </template>
-        </Transition>
-      </v-col>
-      <!-- ACTION BUTTONS -->
-      <Button
-        v-if="!renderOutput"
-        :disabled="blockGenerateButton"
-        text="Generate Types"
-        @button-event="generateTS"
-      />
-      <Button
-        v-else
-        :disabled="blockGenerateButton"
-        text="Try Again"
-        @button-event="initialRender"
-      />
-    </v-container>
+    <v-theme-provider :theme="theme.global.name.value">
+      <Navbar />
+      <v-container fluid class="mt-16 text-center">
+        <Header />
+        <!-- ERROR -->
+        <Error v-if="inputJSON.error" :error="inputJSON.error" />
+        <!-- JSONEDITORS -->
+        <v-col class="text-left">
+          <Transition name="slide-fade">
+            <template v-if="!renderOutput">
+              <JsonEditorVue
+                v-model="inputJSON.input"
+                mode="text"
+                :navigationBar="false"
+                :statusBar="false"
+                :main-menu-bar="false"
+              />
+            </template>
+          </Transition>
+        </v-col>
+        <v-col class="text-left">
+          <Transition name="slide-fade">
+            <template v-if="renderOutput">
+              <JsonEditorVue
+                v-model="outputTS"
+                mode="tree"
+                :navigationBar="false"
+                :statusBar="false"
+                :main-menu-bar="false"
+              />
+            </template>
+          </Transition>
+        </v-col>
+        <!-- ACTION BUTTONS -->
+        <Button
+          v-if="!renderOutput"
+          :disabled="blockGenerateButton"
+          text="Generate Types"
+          @button-event="generateTS"
+        />
+        <Button
+          v-else
+          :disabled="blockGenerateButton"
+          text="Try Again"
+          @button-event="initialRender"
+        />
+      </v-container>
+    </v-theme-provider>
   </v-app>
 </template>
 

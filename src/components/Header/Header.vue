@@ -6,7 +6,7 @@
   >
     <v-card-title
       style="white-space: inherit; line-height: 3rem"
-      class="text-h3 text-md-h3 text-lg-h2 py-4 leading-10"
+      class="text-h3 text-md-h3 text-lg-h2 py-4 leading-10 text-primary"
       tag="h2"
     >
       Convert your JSON into Interfaces
