@@ -60,7 +60,7 @@ watch(
     } else {
       blockGenerateButton.value = false;
     }
-  }
+  },
 );
 </script>
 
@@ -118,6 +118,14 @@ watch(
 </template>
 
 <style>
+body {
+  transition: color 2s;
+}
+
+.cm-scroller {
+  min-height: 300px;
+}
+
 .cm-content,
 .jse-value {
   font-size: 1.2rem;
