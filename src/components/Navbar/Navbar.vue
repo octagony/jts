@@ -23,7 +23,13 @@ const currentTheme = computed(() => {
       <span class="px-1 text-info">&#125;</span>
     </h1>
     <template v-slot:append>
-      <v-btn icon="mdi-github"></v-btn>
+      <a
+        class="text-primary"
+        href="https://github.com/octagony/jts"
+        target="_blank"
+      >
+        <v-btn icon="mdi-github"></v-btn>
+      </a>
       <v-btn :icon="currentTheme" @click="toggleTheme"></v-btn>
     </template>
   </v-app-bar>
