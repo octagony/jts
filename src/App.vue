@@ -15,7 +15,6 @@ import { IJsonInput } from "@/types/Ijson";
 
 // Theme
 import { useTheme } from "vuetify";
-import { computed } from "vue";
 
 const inputJSON: IJsonInput = reactive({
   input: "",
@@ -32,7 +31,7 @@ const generateTS = () => {
   try {
     const generate = json2ts(inputJSON.input);
     if (inputJSON.input.length < 1) {
-      throw new Error("No context");
+      throw new TypeError();
     }
     outputTS.value = generate;
     inputJSON.error = "";
@@ -68,7 +67,7 @@ watch(
   <v-app>
     <v-theme-provider :theme="theme.global.name.value">
       <Navbar />
-      <v-container fluid class="mt-16 text-center">
+      <v-container fluid class="mt-16 text-center flex-column">
         <Header />
         <!-- ERROR -->
         <Error v-if="inputJSON.error" :error="inputJSON.error" />
@@ -105,12 +104,14 @@ watch(
           :disabled="blockGenerateButton"
           text="Generate Types"
           @button-event="generateTS"
+          icon="mdi-language-typescript"
         />
         <Button
           v-else
           :disabled="blockGenerateButton"
           text="Try Again"
           @button-event="initialRender"
+          icon="mdi-code-json"
         />
       </v-container>
     </v-theme-provider>

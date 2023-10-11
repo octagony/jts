@@ -1,28 +1,30 @@
 {
-     "name": "jts",
-     "version": "0.0.0",
-     "scripts": {
-          "dev": "vite",
-          "build": "bunx --bun vue-tsc --noEmit && vite build",
-          "preview": "bunx --bun vite preview"
-     },
-     "dependencies": {
-          "@mdi/font": "7.0.96",
-          "json-editor-vue": "^0.10.16",
-          "json-ts": "^1.6.4",
-          "roboto-fontface": "*",
-          "vanilla-jsoneditor": "^0.18.4",
-          "vue": "^3.2.0",
-          "vuetify": "^3.0.0"
-     },
-     "devDependencies": {
-          "@babel/types": "^7.21.4",
-          "@types/node": "^18.15.0",
-          "@vitejs/plugin-vue": "^4.0.0",
-          "typescript": "^5.0.0",
-          "unplugin-fonts": "^1.0.3",
-          "vite": "^4.2.0",
-          "vite-plugin-vuetify": "^1.0.0",
-          "vue-tsc": "^1.2.0"
-     }
+  "name": "jts",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "bunx --bun vue-tsc --noEmit && vite build",
+    "preview": "bunx --bun vite preview"
+  },
+  "dependencies": {
+    "@mdi/font": "7.0.96",
+    "json-editor-vue": "^0.10.16",
+    "json-ts": "^1.6.4",
+    "roboto-fontface": "*",
+    "vanilla-jsoneditor": "^0.18.4",
+    "vue": "^3.2.0",
+    "vuetify": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.21.4",
+    "@types/node": "^18.15.0",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "eslint": "^8.51.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "typescript": "^5.0.0",
+    "unplugin-fonts": "^1.0.3",
+    "vite": "^4.2.0",
+    "vite-plugin-vuetify": "^1.0.0",
+    "vue-tsc": "^1.2.0"
+  }
 }
