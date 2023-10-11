@@ -17,7 +17,11 @@ const currentTheme = computed(() => {
 </script>
 <template>
   <v-app-bar :elevation="2" class="px-4">
-    <h1 class="text-primary">JTS</h1>
+    <h1 class="text-primary">
+      <span class="px-1 text-info">&#123;</span>
+      <span>JTS</span>
+      <span class="px-1 text-info">&#125;</span>
+    </h1>
     <template v-slot:append>
       <v-btn icon="mdi-github"></v-btn>
       <v-btn :icon="currentTheme" @click="toggleTheme"></v-btn>
