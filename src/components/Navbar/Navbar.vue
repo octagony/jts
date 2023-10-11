@@ -1,12 +1,17 @@
 <script setup lang="ts">
+//Libraries
 import { computed } from "vue";
 import { useTheme } from "vuetify/lib/framework.mjs";
+
+//Utils
+import { setLocalStorage } from "@/utils/themeStorage";
 const theme = useTheme();
 
 const toggleTheme = () => {
   theme.global.name.value = theme.global.current.value.dark
     ? "lightTheme"
     : "darkTheme";
+  setLocalStorage(theme.global.name.value);
 };
 
 const currentTheme = computed(() => {

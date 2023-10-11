@@ -1,10 +1,12 @@
 <script setup lang="ts">
+//Props
 const props = defineProps<{
   disabled: boolean;
   text: string;
   icon: string;
 }>();
 
+//Emits
 const emit = defineEmits<{
   (e: "buttonEvent"): void;
 }>();

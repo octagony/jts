@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Libraries
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, watch, onMounted } from "vue";
 import { json2ts } from "json-ts";
 
 // Components
@@ -15,6 +15,9 @@ import { IJsonInput } from "@/types/Ijson";
 
 // Theme
 import { useTheme } from "vuetify";
+
+//Utils
+import { getLocalStorage } from "./utils/themeStorage";
 
 const inputJSON: IJsonInput = reactive({
   input: "",
@@ -49,6 +52,10 @@ const initialRender = () => {
   outputTS.value = "";
   renderOutput.value = false;
 };
+
+onMounted(() => {
+  theme.global.name.value = getLocalStorage();
+});
 
 watch(
   () => inputJSON.input,
