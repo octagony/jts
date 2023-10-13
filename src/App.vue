@@ -186,4 +186,9 @@ body {
   transform: translateX(50px);
   opacity: 0;
 }
+
+/* #TODO Implement switching theme in json-editor */
+/* .v-theme--darkTheme .cm-scroller { */
+/*   color: mediumvioletred !important; */
+/* } */
 </style>
