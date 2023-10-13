@@ -1,9 +1,9 @@
 <script setup lang="ts">
 //Props
 const props = defineProps<{
-  disabled: boolean;
-  text: string;
+  disabled?: boolean;
   icon: string;
+  classNames?: string;
 }>();
 
 //Emits
@@ -14,13 +14,13 @@ const emit = defineEmits<{
 
 <template>
   <v-btn
+    :class="classNames"
     variant="tonal"
     :prepend-icon="icon"
     @click="$emit('buttonEvent')"
     :disabled="disabled"
     size="large"
-    class="mt-8"
   >
-    {{ text }}
+    <slot />
   </v-btn>
 </template>

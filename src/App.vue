@@ -19,17 +19,19 @@ import { useTheme } from "vuetify";
 //Utils
 import { getLocalStorage } from "./utils/themeStorage";
 
+//Store initial data
 const inputJSON: IJsonInput = reactive({
   input: "",
   error: "",
 });
-
 const outputTS = ref<string>("");
 const renderOutput = ref<boolean>(false);
 const blockGenerateButton = ref<boolean>(false);
 
+//Store theme
 const theme = useTheme();
 
+//Try convert JSON to TS
 const generateTS = () => {
   try {
     const generate = json2ts(inputJSON.input);
@@ -46,6 +48,7 @@ const generateTS = () => {
   }
 };
 
+//Back to initial editor
 const initialRender = () => {
   inputJSON.input = "";
   inputJSON.error = "";
@@ -53,10 +56,27 @@ const initialRender = () => {
   renderOutput.value = false;
 };
 
+//Save output text to file
+const saveToFile = () => {
+  console.log(outputTS.value);
+  const link = document.createElement("a");
+  link.setAttribute(
+    "href",
+    "data:text/plain; charset=utf-8," + encodeURIComponent(outputTS.value),
+  );
+  link.setAttribute("download", "jts.ts");
+  link.target = "_blank";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+//Set theme on initial render
 onMounted(() => {
   theme.global.name.value = getLocalStorage();
 });
 
+//Block generate button if input JSON is invalid
 watch(
   () => inputJSON.input,
   () => {
@@ -109,17 +129,26 @@ watch(
         <Button
           v-if="!renderOutput"
           :disabled="blockGenerateButton"
-          text="Generate Types"
           @button-event="generateTS"
           icon="mdi-language-typescript"
-        />
-        <Button
-          v-else
-          :disabled="blockGenerateButton"
-          text="Try Again"
-          @button-event="initialRender"
-          icon="mdi-code-json"
-        />
+          class-names="mt-8"
+          >Generate Types</Button
+        >
+        <div v-else class="flex-sm-column justify-center">
+          <Button
+            class-names="ma-8"
+            @button-event="initialRender"
+            icon="mdi-language-typescript"
+            >Try Again</Button
+          >
+
+          <Button
+            class-names=""
+            @button-event="saveToFile"
+            icon="mdi-file-download-outline"
+            >Save To File</Button
+          >
+        </div>
       </v-container>
     </v-theme-provider>
   </v-app>
