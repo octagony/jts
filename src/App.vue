@@ -7,11 +7,11 @@ import { json2ts } from "json-ts";
 import JsonEditorVue from "json-editor-vue";
 import Header from "@/components/Header/Header.vue";
 import Navbar from "@/components/Navbar/Navbar.vue";
-import Error from "@/components/Error/Error.vue";
+import Notifications from "@/components/Notifications/Notifications.vue";
 import Button from "@/components/Button/Button.vue";
 
 // Types
-import { IJsonInput } from "@/types/Ijson";
+import { IJsonInput } from "@/types/IJson";
 
 // Theme
 import { useTheme } from "vuetify";
@@ -24,9 +24,11 @@ const inputJSON: IJsonInput = reactive({
   input: "",
   error: "",
 });
+
 const outputTS = ref<string>("");
 const renderOutput = ref<boolean>(false);
 const blockGenerateButton = ref<boolean>(false);
+const notifiactionShow = ref<boolean>(false);
 
 //Store theme
 const theme = useTheme();
@@ -44,6 +46,7 @@ const generateTS = () => {
   } catch (e) {
     if (e instanceof TypeError) {
       inputJSON.error = `Sorry, but i can't convert this`;
+      notifiactionShow.value = true;
     }
   }
 };
@@ -58,17 +61,24 @@ const initialRender = () => {
 
 //Save output text to file
 const saveToFile = () => {
-  console.log(outputTS.value);
   const link = document.createElement("a");
   link.setAttribute(
     "href",
-    "data:text/plain; charset=utf-8," + encodeURIComponent(outputTS.value)
+    "data:text/plain; charset=utf-8," + encodeURIComponent(outputTS.value),
   );
   link.setAttribute("download", "jts.ts");
   link.target = "_blank";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+};
+
+const copyToClipboard = async () => {
+  try {
+    await navigator.clipboard.writeText(outputTS.value);
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 //Set theme on initial render
@@ -86,7 +96,7 @@ watch(
     } else {
       blockGenerateButton.value = false;
     }
-  }
+  },
 );
 </script>
 
@@ -97,7 +107,7 @@ watch(
       <v-container fluid class="mt-16 text-center flex-column">
         <Header />
         <!-- ERROR -->
-        <Error v-if="inputJSON.error" :error="inputJSON.error" />
+        <Notifications v-if="notifiactionShow" :text="inputJSON.error" />
         <!-- JSONEDITORS -->
         <v-col class="text-left">
           <Transition name="slide-fade">
@@ -135,13 +145,15 @@ watch(
           >Generate Types</Button
         >
         <div v-else class="flex-sm-column justify-center">
+          <Button @button-event="copyToClipboard" icon="mdi-content-copy"
+            >Copy to clipboard</Button
+          >
           <Button
             class-names="ma-8"
             @button-event="initialRender"
             icon="mdi-language-typescript"
             >Try Again</Button
           >
-
           <Button
             class-names=""
             @button-event="saveToFile"
@@ -188,7 +200,7 @@ body {
 }
 
 /* #TODO Implement switching theme in json-editor */
-/* .v-theme--darkTheme .cm-scroller { */
-/*   color: mediumvioletred !important; */
+/* .v-theme--darkTheme .cm-editor { */
+/*   color: #000 !important; */
 /* } */
 </style>
