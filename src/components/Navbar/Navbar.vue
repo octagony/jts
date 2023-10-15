@@ -20,12 +20,13 @@ const currentTheme = computed(() => {
     : "mdi-weather-night";
 });
 </script>
+
 <template>
   <v-app-bar :elevation="2" class="px-4">
     <h1 class="text-primary">
-      <span class="px-1 text-info">&#123;</span>
+      <span class="px-1 text-warning">&#123;</span>
       <span>JTS</span>
-      <span class="px-1 text-info">&#125;</span>
+      <span class="px-1 text-warning">&#125;</span>
     </h1>
     <template v-slot:append>
       <a

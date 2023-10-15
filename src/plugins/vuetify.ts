@@ -21,7 +21,7 @@ export default createVuetify({
           error: "#f55951",
           info: "#2196F3",
           success: "#00ff00",
-          warning: "#FB8C00",
+          warning: "#FFEA00",
         },
       },
       lightTheme: {
@@ -36,7 +36,7 @@ export default createVuetify({
           error: "#ff4d4d",
           info: "#2196F3",
           success: "#00ff00",
-          warning: "#FB8C00",
+          warning: "#FFC000",
         },
       },
     },
