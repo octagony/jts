@@ -34,7 +34,7 @@ export default createVuetify({
           secondary: "#131919",
           "secondary-darken-1": "#b6bac3",
           error: "#ff4d4d",
-          info: "#2196F3",
+          info: "#176eb3",
           success: "#00ff00",
           warning: "#FFC000",
         },
