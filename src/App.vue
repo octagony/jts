@@ -83,7 +83,7 @@ const saveToFile = () => {
   const link = document.createElement("a");
   link.setAttribute(
     "href",
-    "data:text/plain; charset=utf-8," + encodeURIComponent(outputTS.value)
+    "data:text/plain; charset=utf-8," + encodeURIComponent(outputTS.value),
   );
   link.setAttribute("download", "jts.ts");
   link.target = "_blank";
@@ -134,7 +134,7 @@ watch(
     } else {
       blockGenerateButton.value = false;
     }
-  }
+  },
 );
 </script>
 

@@ -15,6 +15,7 @@ const emit = defineEmits<{
     {{ text }}
   </v-chip>
 </template>
+
 <style scoped>
 .error__message {
   font-weight: bold;

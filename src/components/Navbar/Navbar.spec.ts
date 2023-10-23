@@ -3,7 +3,7 @@ import { expect, test } from "vitest";
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
-import Button from "../Button/Button.vue";
+import Navbar from "../Navbar/Navbar.vue";
 import { describe } from "node:test";
 
 const vuetify = createVuetify({
@@ -13,27 +13,25 @@ const vuetify = createVuetify({
 
 global.ResizeObserver = require("resize-observer-polyfill");
 
-describe("Header testing", () => {
-  test("Title and subtitle renders correctly", () => {
+describe("Navbar testing", () => {
+  test("Title and icons renders correctly", () => {
     const wrapper = mount(
       {
-        template: `<v-layout>
-        <Button icon='mdi-language-typescript'/>Generate Types</Button>
-        </v-layout>`,
+        template: "<v-layout><Navbar/></v-layout>",
       },
       {
-        slots: { default: "Generate Types" },
-        props: {
-          icon: "mdi-language-typescript",
-        },
+        props: {},
         global: {
           components: {
-            Button,
+            Navbar,
           },
           plugins: [vuetify],
         },
       },
     );
-    expect(wrapper.text()).toContain("Generate Types");
+    expect(wrapper.text()).toContain("JTS");
+    wrapper.findAll("i").map((icon) => {
+      expect(icon.classes().includes("mdi-weather" || "mdi-github"));
+    });
   });
 });
